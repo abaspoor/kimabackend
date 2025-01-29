@@ -1,6 +1,6 @@
 package org.dit.wim.ase.footprint.controller;
 
-import org.dit.wim.ase.footprint.model.Transportmodel;
+import org.dit.wim.ase.footprint.entity.Transportmodel;
 import org.dit.wim.ase.footprint.service.Transportservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

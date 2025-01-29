@@ -1,0 +1,36 @@
+#spring.application.name=footprint
+#server.error.include-message=always
+#server.error.include-stacktrace=always
+#
+##spring.security.user.name=tabasom
+##spring.security.user.password=123456
+#
+## PostgreSQL Configuration
+#spring.datasource.url=jdbc:postgresql://localhost:5432/FootprintDB
+#spring.datasource.driver-class-name=org.postgresql.Driver
+#spring.datasource.username=postgres
+#spring.datasource.password=13731373
+#
+## Hibernate Dialect for PostgreSQL
+#spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+#spring.jpa.hibernate.ddl-auto=create-drop
+
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/FootprintDB  # PostgreSQL default port is 5432
+    username: postgres  # Default PostgreSQL username
+    password: password  # Your PostgreSQL password
+  application:
+    name: FootprintDB
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect  # PostgreSQL dialect
+        format_sql: true

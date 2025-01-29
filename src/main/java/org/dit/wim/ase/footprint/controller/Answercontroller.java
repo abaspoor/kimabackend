@@ -1,6 +1,6 @@
 package org.dit.wim.ase.footprint.controller;
 
-import org.dit.wim.ase.footprint.model.Answermodel;
+import org.dit.wim.ase.footprint.entity.Answermodel;
 import org.dit.wim.ase.footprint.service.Answerservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

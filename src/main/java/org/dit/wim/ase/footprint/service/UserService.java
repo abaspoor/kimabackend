@@ -1,31 +1,10 @@
 package org.dit.wim.ase.footprint.service;
 
-import org.dit.wim.ase.footprint.model.UserProperty;
-import org.dit.wim.ase.footprint.repo.Userrepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.dit.wim.ase.footprint.model.UserPropertyResponse;
 
 import java.util.List;
 
-@Service
-public class UserService {
-    @Autowired
-    Userrepo userrepository;
-
-
-    public List<UserProperty> getUsers() {
-        return userrepository.findAll();
-
-    }
-
-
-    public void addUser(UserProperty User) {
-        userrepository.save(User);
-    }
-
-    public void deletuser(Integer id) {
-        userrepository.deleteById(id);
-    }
-
-
+public interface UserService {
+    List<UserPropertyResponse> getAllUsers();
+    UserPropertyResponse getUserById(Integer User_Id);
 }

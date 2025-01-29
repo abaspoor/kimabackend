@@ -1,7 +1,7 @@
 package org.dit.wim.ase.footprint.service;
 
-import org.dit.wim.ase.footprint.model.Transportmodel;
-import org.dit.wim.ase.footprint.repo.methodrepo;
+import org.dit.wim.ase.footprint.entity.Transportmodel;
+import org.dit.wim.ase.footprint.repo.MethodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class Transportservice {
     @Autowired
-    methodrepo Repo;
+    MethodRepository Repo;
 
     public List<Transportmodel> getTransportmethod() {
         return Repo.findAll();
