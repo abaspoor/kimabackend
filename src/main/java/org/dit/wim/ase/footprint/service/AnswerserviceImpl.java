@@ -43,12 +43,14 @@ public class AnswerserviceImpl implements AnswerService{
     }
 
     private AnswerResponse convertToAnswerResponse(Answermodel answerModel){
+        String transportMethodName = (answerModel.getTransportmodel() != null) ? answerModel.getTransportmodel().getTransportname() : "unknown";
         return AnswerResponse.builder()
                 .Answer_id(answerModel.getAnswer_id())
                 .Date(answerModel.getDate())
                 .Time(answerModel.getTime())
                 .Distance(answerModel.getDistance())
                 .Passenger_count(answerModel.getPassenger_count())
+                .TransportMethodName(transportMethodName)
                 .build();
     }
 }

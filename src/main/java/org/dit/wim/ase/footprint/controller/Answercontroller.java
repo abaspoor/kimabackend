@@ -1,5 +1,6 @@
 package org.dit.wim.ase.footprint.controller;
 
+import lombok.extern.log4j.Log4j2;
 import org.dit.wim.ase.footprint.entity.Answermodel;
 import org.dit.wim.ase.footprint.model.AnswerResponse;
 import org.dit.wim.ase.footprint.service.AnswerService;
@@ -12,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@Log4j2
 @RestController
 @RequestMapping("/api/Answers")
 public class Answercontroller {
@@ -26,6 +27,7 @@ public class Answercontroller {
         this.answerService = answerService;
     }
 
+//    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping()
     public ResponseEntity<List<AnswerResponse>> getAllAnswers(){
         List<AnswerResponse> answerResponseList= answerService.getAllAnswers();

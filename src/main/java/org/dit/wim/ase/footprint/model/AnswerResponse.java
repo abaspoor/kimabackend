@@ -17,5 +17,6 @@ public class AnswerResponse {
     private LocalTime Time;
     private Integer  Distance;
     private Integer  Passenger_count;
+    private String TransportMethodName;
 
 }
