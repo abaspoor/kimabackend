@@ -33,5 +33,5 @@ public class Answermodel {
     private Transportmodel Transportmodel;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="AnswerByUserId", referencedColumnName = "User_Id")
-    private UserProperty User;
+    private UserProperty userproperty;
 }

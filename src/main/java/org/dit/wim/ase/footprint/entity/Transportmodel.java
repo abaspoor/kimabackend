@@ -25,6 +25,6 @@ public class Transportmodel {
     private Integer Fuel_factor;
     @Column(name="Emission_Factor")
     private Integer Emission_factor;
-    @OneToMany(mappedBy = "transportmodel", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "Transportmodel", fetch = FetchType.LAZY)
     private List<Answermodel> Answers;
 }

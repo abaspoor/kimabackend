@@ -3,51 +3,51 @@ CREATE DATABASE "FootprintDB";
 
 -- Connect to the database (this is done outside the script, e.g., via psql or your client)
 
--- Drop tables if they exist
-DROP TABLE IF EXISTS "Answermodel";
-DROP TABLE IF EXISTS "Result";
-DROP TABLE IF EXISTS "Transportmodel";
-DROP TABLE IF EXISTS "UserProperty";
-
--- Create UserProperty table
-CREATE TABLE "UserProperty" (
-                                "User_id" SERIAL PRIMARY KEY,
-                                "Username" VARCHAR(255) NOT NULL,
-                                "Password" VARCHAR(255) NOT NULL,
-                                "Email" VARCHAR(255) NOT NULL,
-                                "Firstname" VARCHAR(255) NOT NULL,
-                                "Lastname" VARCHAR(255) NOT NULL
-);
-
--- Create Transportmodel table
-CREATE TABLE "Transportmodel" (
-                                  "T_id" SERIAL PRIMARY KEY,
-                                  "Transportname" VARCHAR(255) NOT NULL,
-                                  "Fuel_factor" INTEGER NOT NULL,
-                                  "Emission_factor" INTEGER NOT NULL
-);
-
--- Create Result table
-CREATE TABLE "Result" (
-                          "Id" SERIAL PRIMARY KEY,
-                          "CO_PER_DAY" DECIMAL(10,2) NOT NULL,
-                          "CO_PER_MONTH" DECIMAL(10,2) NOT NULL,
-                          "CO_PER_YEAR" DECIMAL(10,2) NOT NULL
-);
-
--- Create Answermodel table
-CREATE TABLE "Answermodel" (
-                               "Answer_id" SERIAL PRIMARY KEY,
-                               "Date" DATE NOT NULL,
-                               "Time" TIME NOT NULL,
-                               "Transportmethod" INTEGER REFERENCES "Transportmodel"("T_id"),
-                               "Distance" INTEGER NOT NULL,
-                               "Passenger_count" INTEGER NOT NULL,
-                               "User" INTEGER REFERENCES "UserProperty"("User_id")
-);
+-- -- Drop tables if they exist
+-- DROP TABLE IF EXISTS "answermodel";
+-- DROP TABLE IF EXISTS "result";
+-- DROP TABLE IF EXISTS "transportmodel";
+-- DROP TABLE IF EXISTS "userproperty";
+--
+-- -- Create UserProperty table
+-- CREATE TABLE "userproperty" (
+--                                 "User_id" SERIAL PRIMARY KEY,
+--                                 "Username" VARCHAR(255) NOT NULL,
+--                                 "Password" VARCHAR(255) NOT NULL,
+--                                 "Email" VARCHAR(255) NOT NULL,
+--                                 "Firstname" VARCHAR(255) NOT NULL,
+--                                 "Lastname" VARCHAR(255) NOT NULL
+-- );
+--
+-- -- Create Transportmodel table
+-- CREATE TABLE "transportmodel" (
+--                                   "T_id" SERIAL PRIMARY KEY,
+--                                   "Transportname" VARCHAR(255) NOT NULL,
+--                                   "Fuel_factor" INTEGER NOT NULL,
+--                                   "Emission_factor" INTEGER NOT NULL
+-- );
+--
+-- -- Create Result table
+-- CREATE TABLE "result" (
+--                           "Id" SERIAL PRIMARY KEY,
+--                           "co_per_day" DECIMAL(10,2) NOT NULL,
+--                           "co_per_month" DECIMAL(10,2) NOT NULL,
+--                           "co_per_year" DECIMAL(10,2) NOT NULL
+-- );
+--
+-- -- Create Answermodel table
+-- CREATE TABLE "answermodel" (
+--                                "Answer_id" SERIAL PRIMARY KEY,
+--                                "date" DATE NOT NULL,
+--                                "time" TIME NOT NULL,
+--                                "transportmethod" INTEGER REFERENCES "Transportmodel"("T_id"),
+--                                "distance" INTEGER NOT NULL,
+--                                "passenger_count" INTEGER NOT NULL,
+--                                "user" INTEGER REFERENCES "UserProperty"("User_id")
+-- );
 
 -- Insert Data For UserProperty
-INSERT INTO "UserProperty" ("Username", "Password", "Email", "Firstname", "Lastname") VALUES
+INSERT INTO "userproperty" ("username", "password", "email", "firstname", "lastname") VALUES
                                                                                           ('hbedell0', 'mY8<md7|quNlS', 'hbedell0@blogspot.com', 'Hill', 'Bedell'),
                                                                                           ('sflanaghan1', 'pW6#H7,(_<AfsJ', 'sflanaghan1@zimbio.com', 'Stoddard', 'Flanaghan'),
                                                                                           ('ktinson2', 'dU3*b54sS!Ce', 'ktinson2@tamu.edu', 'Krystalle', 'Tinson'),
@@ -60,14 +60,14 @@ INSERT INTO "UserProperty" ("Username", "Password", "Email", "Firstname", "Lastn
                                                                                           ('rwason9', 'sJ0(?+EA9(l5', 'rwason9@who.int', 'Regine', 'Wason');
 
 -- Insert Data For Transportmodel
-INSERT INTO "Transportmodel" ("Transportname", "Fuel_factor", "Emission_factor") VALUES
+INSERT INTO "transportmodel" ("transportname", "fuel_factor", "emission_factor") VALUES
                                                                                      ('Car', 1, 1),
                                                                                      ('Plane', 2, 2),
                                                                                      ('Train', 3, 3),
                                                                                      ('Ship', 4, 4);
 
 -- Insert Data For Result
-INSERT INTO "Result" ("CO_PER_DAY", "CO_PER_MONTH", "CO_PER_YEAR") VALUES
+INSERT INTO "result" ("co_per_day", "co_per_month", "co_per_year") VALUES
                                                                        (5.84, 30.32, 219.41),
                                                                        (2.87, 20.3, 595.77),
                                                                        (2.41, 3.15, 616.09),
@@ -90,24 +90,24 @@ INSERT INTO "Result" ("CO_PER_DAY", "CO_PER_MONTH", "CO_PER_YEAR") VALUES
                                                                        (6.61, 39.77, 863.08);
 
 -- Insert Data For Answermodel
-INSERT INTO "Answermodel" ("Date", "Time", "Transportmethod", "Distance", "Passenger_count", "User") VALUES
-                                                                                                         ('2024-05-15', '06:07:00', 4, 5058, 12, 9),
-                                                                                                         ('2025-01-09', '19:01:00', 2, 8163, 1, 2),
-                                                                                                         ('2024-06-26', '16:27:00', 2, 486, 13, 1),
-                                                                                                         ('2024-07-31', '01:13:00', 1, 7484, 10, 4),
-                                                                                                         ('2024-05-25', '07:34:00', 2, 663, 14, 6),
-                                                                                                         ('2024-10-04', '04:12:00', 2, 1925, 15, 2),
-                                                                                                         ('2025-01-13', '02:44:00', 3, 8563, 7, 9),
-                                                                                                         ('2024-12-20', '00:02:00', 2, 4426, 8, 10),
-                                                                                                         ('2025-01-13', '14:38:00', 1, 6117, 19, 3),
-                                                                                                         ('2024-04-05', '03:51:00', 4, 8246, 17, 3),
-                                                                                                         ('2024-06-25', '13:15:00', 3, 1348, 9, 10),
-                                                                                                         ('2024-07-26', '20:12:00', 4, 1844, 1, 1),
-                                                                                                         ('2024-02-19', '03:31:00', 3, 3000, 3, 5),
-                                                                                                         ('2024-08-07', '23:53:00', 1, 932, 10, 2),
-                                                                                                         ('2024-11-04', '14:47:00', 1, 2714, 11, 9),
-                                                                                                         ('2024-04-20', '02:54:00', 4, 1577, 13, 6),
-                                                                                                         ('2024-12-04', '20:53:00', 4, 2183, 17, 2),
-                                                                                                         ('2024-09-13', '21:41:00', 2, 6601, 7, 8),
-                                                                                                         ('2024-06-07', '04:45:00', 4, 4484, 10, 10),
-                                                                                                         ('2024-06-10', '14:20:00', 1, 1701, 12, 5);
+INSERT INTO "answermodel" ("date", "time","distance", "passenger_count","answerbytransportid","answerbyuserid") VALUES
+                                                                                                                    ('2024-05-15', '06:07:00',5058, 12, 1,2),
+                                                                                                                    ('2025-01-09', '19:01:00',8163, 1, 2,3),
+                                                                                                                    ('2024-06-26', '16:27:00',486, 13, 2,4),
+                                                                                                                    ('2024-07-31', '01:13:00',7484, 10, 3,5),
+                                                                                                                    ('2024-05-25', '07:34:00',663, 14, 1,7),
+                                                                                                                    ('2024-10-04', '04:12:00',1925, 15, 4,6),
+                                                                                                                    ('2025-01-13', '02:44:00',8563, 7,1,5),
+                                                                                                                    ('2024-12-20', '00:02:00',4426, 8,2,8),
+                                                                                                                    ('2025-01-13', '14:38:00',6117, 19,3,4),
+                                                                                                                    ('2024-04-05', '03:51:00',8246, 17,2,2),
+                                                                                                                    ('2024-06-25', '13:15:00',1348, 9,3,1),
+                                                                                                                    ('2024-07-26', '20:12:00',1844, 1,2,5),
+                                                                                                                    ('2024-02-19', '03:31:00',3000, 3,4,6),
+                                                                                                                    ('2024-08-07', '23:53:00',932, 10,3,6),
+                                                                                                                    ('2024-11-04', '14:47:00',2714, 11,4,5),
+                                                                                                                    ('2024-04-20', '02:54:00',1577, 13,2,8),
+                                                                                                                    ('2024-12-04', '20:53:00',2183, 17,1,9),
+                                                                                                                    ('2024-09-13', '21:41:00',6601, 7,1,6),
+                                                                                                                    ('2024-06-07', '04:45:00',4484, 10,3,5),
+                                                                                                                    ('2024-06-10', '14:20:00',1701, 12,3,6);

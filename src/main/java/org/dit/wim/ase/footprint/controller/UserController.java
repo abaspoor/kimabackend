@@ -1,17 +1,13 @@
 package org.dit.wim.ase.footprint.controller;
 
-import com.sun.jdi.connect.spi.TransportService;
-import org.dit.wim.ase.footprint.entity.UserProperty;
 import org.dit.wim.ase.footprint.model.UserPropertyResponse;
-import org.dit.wim.ase.footprint.service.Answerservice;
+import org.dit.wim.ase.footprint.service.AnswerserviceImpl;
 import org.dit.wim.ase.footprint.service.UserService;
-import org.dit.wim.ase.footprint.service.UserServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.dit.wim.ase.footprint.service.TransportService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.PrivateKey;
 import java.util.List;
 
 @RestController
@@ -19,12 +15,12 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
     private final TransportService transportService;
-    private final Answerservice answerService;
+    private final AnswerserviceImpl answerService;
 //    private final ResulService
 
-    public UserController(UserService userservice, TransportService transport_service, Answerservice answerservice) {
+    public UserController(UserService userservice, TransportService transportService, AnswerserviceImpl answerservice) {
         this.userService = userservice;
-        this.transportService = transport_service;
+        this.transportService = transportService;
         this.answerService = answerservice;
     }
     @GetMapping()

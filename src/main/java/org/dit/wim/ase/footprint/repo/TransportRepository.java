@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 
-public interface MethodRepository extends JpaRepository<Transportmodel, Integer> {
+public interface TransportRepository extends JpaRepository<Transportmodel, Integer> {
 
 }
