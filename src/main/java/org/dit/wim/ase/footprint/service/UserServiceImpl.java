@@ -70,18 +70,17 @@ public class UserServiceImpl implements UserService{
         return userRepository.save(newUser);
     }
     @Override
-    public Optional<Map<String, String>> authenticateUser(UserLoginDTO userDTO){
+    public Map<String, String> authenticateUser(UserLoginDTO userDTO){
             Optional<UserProperty> userOptional = userRepository.findByUsername(userDTO.getUsername());
             if(userOptional.isPresent()){
-                log.info("fetched");
                 UserProperty User = userOptional.get();
                 if(passwordEncoder.matches(userDTO.getPassword(),User.getPassword())){
                     String token = jwtUtil.generateToken(userDTO.getUsername());
                     String lastname = User.getLastname();
-                    return Optional.of(Map.of("token",token,"lastname",lastname));
+                    return Map.of("token", token, "lastname", lastname);
                 }
             }
-            return Optional.empty();
+            return null;
     }
 
     private UserPropertyResponse convertToUserPropertyResponse(UserProperty userProperty){

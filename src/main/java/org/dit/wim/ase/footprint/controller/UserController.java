@@ -54,20 +54,13 @@ public class UserController {
             return ResponseEntity.badRequest().body(Map.of("error",e.getMessage()));
     }}
     @PostMapping("/login")
-    public ResponseEntity<Optional<Map<String, String>>> signUser(@RequestBody UserLoginDTO userLoginDTO){
-        log.info("request came");
-        Optional<Map<String, String>> jwtToken  = userService.authenticateUser(userLoginDTO);
-        if(jwtToken .isPresent()){
-            Optional<UserProperty> userProperty = userRepository.findByUsername(userLoginDTO.getUsername());
-//            return ResponseEntity.ok(Map.of(
-//                    "token", jwtToken.get(),
-//                    "message", "Login successful",
-//                    "lastname",userProperty.get().getLastname().toString()
-//            ));
+    public ResponseEntity<Map<String, String>> signUser(@RequestBody UserLoginDTO userLoginDTO){
+        Map<String, String> jwtToken  = userService.authenticateUser(userLoginDTO);
+        if(jwtToken != null){
             return ResponseEntity.ok(jwtToken);
         }else{
-//            return ResponseEntity.badRequest().body(Map.of("error","invalid username or password"));
-            return ResponseEntity.badRequest().body(Optional.of(Map.of("error", "invalid username or password")));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "Invalid username or password"));
         }
     }
 
