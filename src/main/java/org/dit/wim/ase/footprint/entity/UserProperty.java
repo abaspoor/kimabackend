@@ -23,7 +23,7 @@ public class UserProperty {
     private String Username;
     @Column(name="PassWord")
     private String Password;
-    @Column(name="EmaiL")
+    @Column(name="EmaiL",unique = true)
     private String Email;
     @Column(name="FirstName")
     private String Firstname;

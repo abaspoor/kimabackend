@@ -39,6 +39,26 @@ public class UserServiceImpl implements UserService{
         return userPropertyResponse;
     }
 
+    @Override
+    public UserProperty addUser(UserProperty user) {
+        if(userRepository.findByEmail(user.getEmail()).isPresent()){
+            throw new RuntimeException("User with this username or email already exists.");
+        }
+        // Encrypt password before saving
+//        String hashedPassword = passwordEncoder.encode(userDTO.getPassword());
+
+        log.info("request came");
+        // Create user object
+        UserProperty newUser = UserProperty.builder()
+                .Username(user.getUsername())
+                .Email(user.getEmail())
+                .Password(user.getPassword())
+                .Firstname(user.getFirstname())
+                .Lastname(user.getLastname())
+                .build();
+        return userRepository.save(newUser);
+    }
+
     private UserPropertyResponse convertToUserPropertyResponse(UserProperty userProperty){
         return UserPropertyResponse.builder()
                 .User_id(userProperty.getUser_id())

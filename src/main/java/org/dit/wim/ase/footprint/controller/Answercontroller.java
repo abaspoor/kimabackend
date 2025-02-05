@@ -1,6 +1,7 @@
 package org.dit.wim.ase.footprint.controller;
 
 import lombok.extern.log4j.Log4j2;
+import org.dit.wim.ase.footprint.DTO.AnswerDTO;
 import org.dit.wim.ase.footprint.entity.Answermodel;
 import org.dit.wim.ase.footprint.model.AnswerResponse;
 import org.dit.wim.ase.footprint.service.AnswerService;
@@ -32,6 +33,11 @@ public class Answercontroller {
     public ResponseEntity<List<AnswerResponse>> getAllAnswers(){
         List<AnswerResponse> answerResponseList= answerService.getAllAnswers();
         return new ResponseEntity<>(answerResponseList, HttpStatus.OK);
+    }
+    @GetMapping("/extra")
+    public ResponseEntity<List<AnswerDTO>> getAllAnswersExtra(){
+        List<AnswerDTO> answerDTOList = answerService.getAllAnswersExtra();
+        return new ResponseEntity<>(answerDTOList,HttpStatus.OK);
     }
 
     @PostMapping("/set")

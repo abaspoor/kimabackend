@@ -1,11 +1,23 @@
 package org.dit.wim.ase.footprint.DTO;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class AnswerDTO {
-    private Integer methodId;
-    private String methodName;
-    public AnswerDTO(Integer methodId,String methodName){
-        this.methodId=methodId;
-        this.methodName=methodName;
-    }
+    private Integer Answer_id;
+    private LocalDate Date;
+    private LocalTime Time;
+    private Integer  Distance;
+    private Integer  Passenger_count;
+    private String TransportMethodName;
+    private String UserName;
 
 }
