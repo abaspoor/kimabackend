@@ -1,11 +1,17 @@
 package org.dit.wim.ase.footprint.service;
 
+import org.dit.wim.ase.footprint.security.JwtUtil;
+import org.dit.wim.ase.footprint.DTO.UserLoginDTO;
 import org.dit.wim.ase.footprint.entity.UserProperty;
 import org.dit.wim.ase.footprint.model.UserPropertyResponse;
 import org.dit.wim.ase.footprint.repo.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import lombok.extern.log4j.Log4j2;
+
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -14,8 +20,13 @@ public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
+
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
     }
     @Override
     public List<UserPropertyResponse> getAllUsers(){
@@ -45,18 +56,32 @@ public class UserServiceImpl implements UserService{
             throw new RuntimeException("User with this username or email already exists.");
         }
         // Encrypt password before saving
-//        String hashedPassword = passwordEncoder.encode(userDTO.getPassword());
+        String hashedPassword = passwordEncoder.encode(user.getPassword());
 
         log.info("request came");
         // Create user object
         UserProperty newUser = UserProperty.builder()
-                .Username(user.getUsername())
-                .Email(user.getEmail())
-                .Password(user.getPassword())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .password(hashedPassword)
                 .Firstname(user.getFirstname())
                 .Lastname(user.getLastname())
                 .build();
         return userRepository.save(newUser);
+    }
+    @Override
+    public Optional<Map<String, String>> authenticateUser(UserLoginDTO userDTO){
+            Optional<UserProperty> userOptional = userRepository.findByUsername(userDTO.getUsername());
+            if(userOptional.isPresent()){
+                log.info("fetched");
+                UserProperty User = userOptional.get();
+                if(passwordEncoder.matches(userDTO.getPassword(),User.getPassword())){
+                    String token = jwtUtil.generateToken(userDTO.getUsername());
+                    String lastname = User.getLastname();
+                    return Optional.of(Map.of("token",token,"lastname",lastname));
+                }
+            }
+            return Optional.empty();
     }
 
     private UserPropertyResponse convertToUserPropertyResponse(UserProperty userProperty){

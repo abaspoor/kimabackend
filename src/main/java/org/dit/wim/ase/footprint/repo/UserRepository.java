@@ -9,6 +9,8 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserProperty, Integer> {
-    @Query("SELECT u FROM UserProperty u WHERE u.Email = :email")
-    Optional<UserProperty> findByEmail(String email); // ✅ For checking email uniqueness
+    @Query("SELECT u FROM UserProperty u WHERE u.email = :email")
+    Optional<UserProperty> findByEmail(String email); // self-made method
+    @Query("SELECT u FROM UserProperty u WHERE u.username = :username")
+    Optional<UserProperty> findByUsername(String username); // self-made method
 }

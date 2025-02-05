@@ -19,12 +19,12 @@ public class UserProperty {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="User_Id")
     private Integer User_id;
-    @Column(name="UserName")
-    private String Username;
+    @Column(name="UserName",unique = true)
+    private String username;
     @Column(name="PassWord")
-    private String Password;
+    private String password;
     @Column(name="EmaiL",unique = true)
-    private String Email;
+    private String email;
     @Column(name="FirstName")
     private String Firstname;
     @Column(name="LastName")
