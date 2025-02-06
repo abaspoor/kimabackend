@@ -52,10 +52,10 @@ public class TransportServiceImpl implements TransportService{
 
     private TransportResponse convertToTransportResponse(Transportmodel transportModel){
         return TransportResponse.builder()
-                .T_id(transportModel.getT_id())
-                .Transportname(transportModel.getTransportname())
-                .Fuel_factor(transportModel.getFuel_factor())
-                .Emission_factor(transportModel.getEmission_factor())
+                .t_id(transportModel.getT_id())
+                .transportname(transportModel.getTransportname())
+                .fuel_factor(transportModel.getFuel_factor())
+                .emission_factor(transportModel.getEmission_factor())
                 .build();
     }
 }

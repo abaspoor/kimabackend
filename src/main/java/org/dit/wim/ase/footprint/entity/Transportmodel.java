@@ -18,7 +18,7 @@ public class Transportmodel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="T_Id")
-    private Integer T_id;
+    private Integer t_id;
     @Column(name="TransportName")
     private String Transportname;
     @Column(name="Fuel_Factor")

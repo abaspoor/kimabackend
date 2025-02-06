@@ -11,9 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/TransportMethods")
+@RequestMapping("/api/transportmethods")
 public class Transportcontroller {
     private final UserService userService;
     private final TransportService transportService;
@@ -28,9 +29,13 @@ public class Transportcontroller {
     }
     @GetMapping()
 //    @CrossOrigin(origins = "*")
-    public ResponseEntity<List<TransportResponse>> getAllTransportmethod() {
-        List<TransportResponse> transportResponses=transportService.getAllTransportmethod();
-        return new ResponseEntity<>(transportResponses,HttpStatus.OK);
+    public ResponseEntity<?> getAllTransportmethod() {
+        List<TransportResponse> transportResponseList=transportService.getAllTransportmethod();
+        if(transportResponseList.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(Map.of("message", "No transport Method found"));
+        }else {
+            return new ResponseEntity<>(transportResponseList,HttpStatus.OK);
+        }
     }
     @PostMapping("/create")
     public void createTransport( @RequestBody Transportmodel Transpo) {

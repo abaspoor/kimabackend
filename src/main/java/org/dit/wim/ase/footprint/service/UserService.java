@@ -1,5 +1,6 @@
 package org.dit.wim.ase.footprint.service;
 
+import org.dit.wim.ase.footprint.DTO.UserListDTO;
 import org.dit.wim.ase.footprint.DTO.UserLoginDTO;
 import org.dit.wim.ase.footprint.entity.UserProperty;
 import org.dit.wim.ase.footprint.model.UserPropertyResponse;
@@ -12,4 +13,6 @@ public interface UserService {
     UserPropertyResponse getUserById(Integer User_Id);
     UserProperty addUser(UserProperty user);
     Map<String, String> authenticateUser(UserLoginDTO user);
+    List<UserPropertyResponse> getAdmins();
+    List<UserListDTO> getUsersforAdmin();
 }

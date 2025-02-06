@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 
@@ -29,6 +30,15 @@ public class UserProperty {
     private String Firstname;
     @Column(name="LastName")
     private String Lastname;
+    @Column(name="Admin",nullable = false)
+    private Boolean admin=false;
     @OneToMany(mappedBy = "userproperty", fetch = FetchType.LAZY)
     private List<Answermodel> Answers;
+
+    @PrePersist
+    protected void prePersist() {
+        if (admin == null) {
+            admin = false;
+        }
+    }
 }

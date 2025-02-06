@@ -47,18 +47,17 @@ CREATE DATABASE "FootprintDB";
 -- );
 
 -- Insert Data For UserProperty
-INSERT INTO "userproperty" ("username", "password", "email", "firstname", "lastname") VALUES
-                                                                                          ('hbedell0', 'mY8<md7|quNlS', 'hbedell0@blogspot.com', 'Hill', 'Bedell'),
-                                                                                          ('sflanaghan1', 'pW6#H7,(_<AfsJ', 'sflanaghan1@zimbio.com', 'Stoddard', 'Flanaghan'),
-                                                                                          ('ktinson2', 'dU3*b54sS!Ce', 'ktinson2@tamu.edu', 'Krystalle', 'Tinson'),
-                                                                                          ('pridge3', 'xV4)JKhAJo*aN', 'pridge3@mediafire.com', 'Phylis', 'Ridge'),
-                                                                                          ('gemeline4', 'zN1>Pdy(Fa+H', 'gemeline4@samsung.com', 'Glyn', 'Emeline'),
-                                                                                          ('mcurdell5', 'pI8|Hho3!COv~/', 'mcurdell5@theglobeandmail.com', 'Morissa', 'Curdell'),
-                                                                                          ('rlabatie6', 'oN2/8F~c', 'rlabatie6@bloglovin.com', 'Roxine', 'La Batie'),
-                                                                                          ('jquant7', 'mH2''TtA>I"c', 'jquant7@washington.edu', 'Jase', 'Quant'),
-                                                                                          ('pgrisenthwaite8', 'zR9/tsN.9HW(Q}e', 'pgrisenthwaite8@usatoday.com', 'Pietrek', 'Grisenthwaite'),
-                                                                                          ('rwason9', 'sJ0(?+EA9(l5', 'rwason9@who.int', 'Regine', 'Wason');
-
+INSERT INTO "userproperty" ("username", "password", "email", "firstname", "lastname","admin") VALUES
+                                                                                                  ('Reza', '123456', 'reza@reza.com', 'reza', 'abaspoor',true),
+                                                                                                  ('sflanaghan1', 'pW6#H7,(_<AfsJ', 'sflanaghan1@zimbio.com', 'Stoddard', 'Flanaghan',false),
+                                                                                                  ('ktinson2', 'dU3*b54sS!Ce', 'ktinson2@tamu.edu', 'Krystalle', 'Tinson',false),
+                                                                                                  ('pridge3', 'xV4)JKhAJo*aN', 'pridge3@mediafire.com', 'Phylis', 'Ridge',true),
+                                                                                                  ('gemeline4', 'zN1>Pdy(Fa+H', 'gemeline4@samsung.com', 'Glyn', 'Emeline',false),
+                                                                                                  ('mcurdell5', 'pI8|Hho3!COv~/', 'mcurdell5@theglobeandmail.com', 'Morissa', 'Curdell',false),
+                                                                                                  ('rlabatie6', 'oN2/8F~c', 'rlabatie6@bloglovin.com', 'Roxine', 'La Batie',false),
+                                                                                                  ('jquant7', 'mH2''TtA>I"c', 'jquant7@washington.edu', 'Jase', 'Quant',false),
+                                                                                                  ('pgrisenthwaite8', 'zR9/tsN.9HW(Q}e', 'pgrisenthwaite8@usatoday.com', 'Pietrek', 'Grisenthwaite',false),
+                                                                                                  ('rwason9', 'sJ0(?+EA9(l5', 'rwason9@who.int', 'Regine', 'Wason',true);
 -- Insert Data For Transportmodel
 INSERT INTO "transportmodel" ("transportname", "fuel_factor", "emission_factor") VALUES
                                                                                      ('Car', 1, 1),

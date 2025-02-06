@@ -1,5 +1,6 @@
 package org.dit.wim.ase.footprint.service;
 
+import org.dit.wim.ase.footprint.DTO.UserListDTO;
 import org.dit.wim.ase.footprint.security.JwtUtil;
 import org.dit.wim.ase.footprint.DTO.UserLoginDTO;
 import org.dit.wim.ase.footprint.entity.UserProperty;
@@ -83,6 +84,30 @@ public class UserServiceImpl implements UserService{
             return null;
     }
 
+    @Override
+    public List<UserPropertyResponse> getAdmins() {
+        log.info("Fetching All Admins");
+        //Fetch Users
+        List<UserProperty> userPropertyList = userRepository.findByAdmin();
+        List<UserPropertyResponse> userPropertyResponseList =userPropertyList.stream()
+                .map(this::convertToAdminUserPropertyResponse)
+                .collect(Collectors.toList());
+        log.info("Fetched ALl Admins");
+        return userPropertyResponseList;
+    }
+
+    @Override
+    public List<UserListDTO> getUsersforAdmin() {
+        log.info("Fetching All Users");
+        //Fetch Users
+        List<UserProperty> userPropertyList = userRepository.findAll();
+        List<UserListDTO> userListDTOS =userPropertyList.stream()
+                .map(this::convertToUserforAdminPropertyResponse)
+                .collect(Collectors.toList());
+        log.info("Fetched ALl Users");
+        return userListDTOS;
+    }
+
     private UserPropertyResponse convertToUserPropertyResponse(UserProperty userProperty){
         return UserPropertyResponse.builder()
                 .User_id(userProperty.getUser_id())
@@ -91,6 +116,29 @@ public class UserServiceImpl implements UserService{
                 .Email(userProperty.getEmail())
                 .Firstname(userProperty.getUsername())
                 .Lastname(userProperty.getLastname())
+                .admin(userProperty.getAdmin())
+                .build();
+    }
+
+    private UserPropertyResponse convertToAdminUserPropertyResponse(UserProperty userProperty){
+        return UserPropertyResponse.builder()
+                .User_id(userProperty.getUser_id())
+                .Username(userProperty.getUsername())
+                .Password(userProperty.getPassword())
+                .Email(userProperty.getEmail())
+                .Firstname(userProperty.getUsername())
+                .Lastname(userProperty.getLastname())
+                .admin(userProperty.getAdmin())
+                .build();
+    }
+
+    private UserListDTO convertToUserforAdminPropertyResponse(UserProperty userProperty){
+        return UserListDTO.builder()
+                .username(userProperty.getUsername())
+                .firstname(userProperty.getFirstname())
+                .lastname(userProperty.getLastname())
+                .email(userProperty.getEmail())
+                .admin(userProperty.getAdmin())
                 .build();
     }
 }

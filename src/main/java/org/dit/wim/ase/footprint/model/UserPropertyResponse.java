@@ -16,5 +16,6 @@ public class UserPropertyResponse {
     private String Email;
     private String Firstname;
     private String Lastname;
+    private Boolean admin;
 
 }
