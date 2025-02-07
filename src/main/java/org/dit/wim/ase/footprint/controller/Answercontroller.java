@@ -2,6 +2,7 @@ package org.dit.wim.ase.footprint.controller;
 
 import lombok.extern.log4j.Log4j2;
 import org.dit.wim.ase.footprint.DTO.AnswerDTO;
+import org.dit.wim.ase.footprint.DTO.AnswerSetDTO;
 import org.dit.wim.ase.footprint.entity.Answermodel;
 import org.dit.wim.ase.footprint.model.AnswerResponse;
 import org.dit.wim.ase.footprint.service.AnswerService;
@@ -14,9 +15,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+
 @Log4j2
 @RestController
-@RequestMapping("/api/Answers")
+@RequestMapping("/api/answers")
 public class Answercontroller {
     private final UserService userService;
     private final TransportService transportService;
@@ -41,9 +44,17 @@ public class Answercontroller {
     }
 
     @PostMapping("/set")
-    public void createanswer(@RequestBody Answermodel answer) {
-        answerService.setAnswer(answer);
+    public ResponseEntity<Map<String, String>> createAnswer(@RequestBody AnswerSetDTO answerDTO) {
+        Map<String, String> response = answerService.setAnswer(answerDTO);
+
+        if (response.containsKey("error")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(response);
     }
+
+
 
     @DeleteMapping("/delete/{id}")
     public void deleteanswer(@PathVariable int id) {

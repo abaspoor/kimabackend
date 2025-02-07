@@ -13,10 +13,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
+
 @Log4j2
 @RestController
 @RequestMapping("/api/users")
@@ -57,8 +58,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> signUser(@RequestBody UserLoginDTO userLoginDTO){
-        Map<String, String> jwtToken  = userService.authenticateUser(userLoginDTO);
+    public ResponseEntity<Map<String, Serializable>> signUser(@RequestBody UserLoginDTO userLoginDTO){
+        Map<String, Serializable> jwtToken  = userService.authenticateUser(userLoginDTO);
         if(jwtToken != null){
             return ResponseEntity.ok(jwtToken);
         }else{
@@ -83,6 +84,39 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(Map.of("message", "No Users Found"));
         }
         return ResponseEntity.ok(userListDTOS);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Map<String, String>> deleteUser(@PathVariable Integer id) {
+        Map<String, String> response = userService.deleteUser(id);
+
+        if (response.containsKey("error")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/delete/cascade/{id}")
+    public ResponseEntity<Map<String, String>> deleteUserCascade(@PathVariable Integer id) {
+        Map<String, String> response = userService.deleteUserCascade(id);
+
+        if (response.containsKey("error")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/delete/keep-answers/{id}")
+    public ResponseEntity<Map<String, String>> deleteUserKeepAnswers(@PathVariable Integer id) {
+        Map<String, String> response = userService.deleteUserAndKeepAnswers(id);
+
+        if (response.containsKey("error")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(response);
     }
 
 

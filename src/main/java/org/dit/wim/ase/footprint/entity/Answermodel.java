@@ -29,9 +29,9 @@ public class Answermodel {
     @Column(name="Passenger_Count")
     private Integer  Passenger_count;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="AnswerByTransportId",referencedColumnName = "T_Id")
+    @JoinColumn(name="AnswerByTransportId",referencedColumnName = "T_Id",nullable = true)
     private Transportmodel Transportmodel;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="AnswerByUserId", referencedColumnName = "User_Id")
+    @JoinColumn(name="AnswerByUserId", referencedColumnName = "User_Id",nullable = true)
     private UserProperty userproperty;
 }

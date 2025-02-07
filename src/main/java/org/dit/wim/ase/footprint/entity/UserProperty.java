@@ -32,7 +32,7 @@ public class UserProperty {
     private String Lastname;
     @Column(name="Admin",nullable = false)
     private Boolean admin=false;
-    @OneToMany(mappedBy = "userproperty", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "userproperty", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Answermodel> Answers;
 
     @PrePersist

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TransportResponse {
-    private Integer t_id;
+    private Integer id;
     private String transportname;
     private Integer fuel_factor;
     private Integer emission_factor;

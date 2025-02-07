@@ -11,12 +11,11 @@ import java.time.LocalTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnswerDTO {
-    private Integer id;
-    private LocalDate Date;
-    private LocalTime Time;
-    private Integer  Distance;
-    private Integer  Passenger_count;
-    private String TransportMethodName;
-    private String UserName;
+public class AnswerSetDTO {
+    private LocalDate date;
+    private LocalTime time;
+    private Integer  distance;
+    private Integer  passenger_count;
+    private Integer transportid;
+    private Integer userid;
 }

@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import lombok.extern.log4j.Log4j2;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -71,14 +72,15 @@ public class UserServiceImpl implements UserService{
         return userRepository.save(newUser);
     }
     @Override
-    public Map<String, String> authenticateUser(UserLoginDTO userDTO){
+    public Map<String, Serializable> authenticateUser(UserLoginDTO userDTO){
             Optional<UserProperty> userOptional = userRepository.findByUsername(userDTO.getUsername());
             if(userOptional.isPresent()){
                 UserProperty User = userOptional.get();
                 if(passwordEncoder.matches(userDTO.getPassword(),User.getPassword())){
                     String token = jwtUtil.generateToken(userDTO.getUsername());
                     String lastname = User.getLastname();
-                    return Map.of("token", token, "lastname", lastname);
+                    Integer id = User.getUser_id();
+                    return Map.of("token", token, "lastname", lastname,"id",id);
                 }
             }
             return null;
@@ -106,6 +108,63 @@ public class UserServiceImpl implements UserService{
                 .collect(Collectors.toList());
         log.info("Fetched ALl Users");
         return userListDTOS;
+    }
+
+    @Override
+    public Map<String, String> deleteUser(Integer T_Id) {
+        log.info("Request to delete User with ID: " + T_Id);
+
+        if (!userRepository.existsById(T_Id)) {
+            log.warn("User not found.");
+            return Map.of("error", "User not found.");
+        }
+
+        UserProperty user = userRepository.findById(T_Id).orElseThrow();
+
+        if (!user.getAnswers().isEmpty()) {
+            log.warn("Cannot delete user with ID " + T_Id + " because it has linked answers.");
+            return Map.of("error", "Cannot delete: User is linked to existing answers.");
+        }
+
+        userRepository.deleteById(T_Id);
+        log.info("User deleted successfully.");
+
+        return Map.of("message", "User deleted successfully.");
+    }
+
+    @Override
+    public Map<String, String> deleteUserCascade(Integer T_Id) {
+        log.info("Request to cascade delete User with ID: " + T_Id);
+
+        if (!userRepository.existsById(T_Id)) {
+            log.warn("User not found.");
+            return Map.of("error", "User not found.");
+        }
+
+        userRepository.deleteById(T_Id);
+        log.info("user and linked answers deleted successfully.");
+
+        return Map.of("message", "User and all linked answers deleted successfully.");
+    }
+
+    @Override
+    public Map<String, String> deleteUserAndKeepAnswers(Integer T_Id) {
+        log.info("Request to delete User with ID: " + T_Id + " but keep answers.");
+
+        if (!userRepository.existsById(T_Id)) {
+            log.warn("User not found.");
+            return Map.of("error", "User not found.");
+        }
+
+        UserProperty User = userRepository.findById(T_Id).orElseThrow();
+
+        // Set transport reference in linked answers to NULL
+        User.getAnswers().forEach(answer -> answer.setUserproperty(null));
+
+        userRepository.deleteById(T_Id);
+
+        log.info("User deleted, but linked answers were kept.");
+        return Map.of("message", "User deleted, but linked answers were kept.");
     }
 
     private UserPropertyResponse convertToUserPropertyResponse(UserProperty userProperty){
