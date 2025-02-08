@@ -1,7 +1,10 @@
 package org.dit.wim.ase.footprint.service;
 
 import lombok.extern.log4j.Log4j2;
+import org.dit.wim.ase.footprint.DTO.AnswerSetDTO;
+import org.dit.wim.ase.footprint.entity.Answermodel;
 import org.dit.wim.ase.footprint.entity.Transportmodel;
+import org.dit.wim.ase.footprint.entity.UserProperty;
 import org.dit.wim.ase.footprint.model.TransportResponse;
 import org.dit.wim.ase.footprint.repo.TransportRepository;
 import org.springframework.stereotype.Service;
@@ -42,10 +45,31 @@ public class TransportServiceImpl implements TransportService{
     }
 
     @Override
-    public void createTransport(Transportmodel Transpo) {
-        transportRepository.save(Transpo);
-    }
+    public Map<String, String> setMethod(TransportResponse transportResponse) {
+        log.info("Saving a new transportmethod...");
 
+        try {
+            Transportmodel transportmodel = Transportmodel.builder()
+                    .Transportname(transportResponse.getTransportname())
+                    .Fuel_factor(transportResponse.getFuel_factor())
+                    .Emission_factor(transportResponse.getEmission_factor())
+                    .build();
+
+            //
+            Transportmodel savedTransport = transportRepository.save(transportmodel);
+
+            log.info("Transport saved successfully with ID: " + savedTransport.getT_id());
+
+            return Map.of(
+                    "message", "TransportMethod saved successfully",
+                    "answer_id", String.valueOf(savedTransport.getT_id()) //
+            );
+
+        } catch (Exception e) {
+            log.error("Error saving transport: " + e.getMessage());
+            return Map.of("error", "Failed to save transport: " + e.getMessage());
+        }
+    }
     @Override
 //    public void deleteTransport(Integer id) {
 //        log.info("transfer request delete by id "+id);

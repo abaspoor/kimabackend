@@ -1,6 +1,7 @@
 package org.dit.wim.ase.footprint.service;
 
 import org.dit.wim.ase.footprint.DTO.UserListDTO;
+import org.dit.wim.ase.footprint.entity.Transportmodel;
 import org.dit.wim.ase.footprint.security.JwtUtil;
 import org.dit.wim.ase.footprint.DTO.UserLoginDTO;
 import org.dit.wim.ase.footprint.entity.UserProperty;
@@ -80,7 +81,8 @@ public class UserServiceImpl implements UserService{
                     String token = jwtUtil.generateToken(userDTO.getUsername());
                     String lastname = User.getLastname();
                     Integer id = User.getUser_id();
-                    return Map.of("token", token, "lastname", lastname,"id",id);
+                    Boolean admin = User.getAdmin();
+                    return Map.of("token", token, "lastname", lastname,"id",id,"admin",admin);
                 }
             }
             return null;
@@ -109,6 +111,29 @@ public class UserServiceImpl implements UserService{
         log.info("Fetched ALl Users");
         return userListDTOS;
     }
+
+    @Override
+    public Map<String, String> setUserforAdmin(UserListDTO userListDTO) {
+        log.info("Updating admin status for user: " + userListDTO.getUsername());
+
+        try {
+            Optional<UserProperty> userOptional = userRepository.findByUsername(userListDTO.getUsername());
+
+            if (userOptional.isPresent()) {
+                UserProperty user = userOptional.get(); // ✅ Retrieve user object
+                user.setAdmin(userListDTO.isAdmin());  // ✅ Set new admin status
+                userRepository.save(user);  // ✅ Persist changes
+
+                return Map.of("message", "User updated as " + (user.getAdmin() ? "admin" : "not admin"));
+            } else {
+                return Map.of("error", "User not found");
+            }
+        } catch (Exception e) {
+            log.error("Error setting user as admin: " + e.getMessage());
+            return Map.of("error", "Failed to update user as admin");
+        }
+    }
+
 
     @Override
     public Map<String, String> deleteUser(Integer T_Id) {

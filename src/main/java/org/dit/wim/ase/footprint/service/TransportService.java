@@ -9,9 +9,9 @@ import java.util.Map;
 public interface TransportService {
     List<TransportResponse> getAllTransportmethod();
     TransportResponse getTransportmethodById(Integer  T_Id);
-    void createTransport(Transportmodel Transpo);
     Map<String, String> deleteTransport(Integer T_Id);
     Map<String, String> deleteTransportCascade(Integer T_Id);
     Map<String, String> deleteTransportAndKeepAnswers(Integer T_Id);
+    public Map<String, String> setMethod(TransportResponse transportResponse);
 
 }

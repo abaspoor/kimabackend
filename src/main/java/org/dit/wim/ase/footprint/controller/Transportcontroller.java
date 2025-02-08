@@ -1,5 +1,6 @@
 package org.dit.wim.ase.footprint.controller;
 
+import org.dit.wim.ase.footprint.DTO.AnswerSetDTO;
 import org.dit.wim.ase.footprint.entity.Transportmodel;
 import org.dit.wim.ase.footprint.model.TransportResponse;
 import org.dit.wim.ase.footprint.service.*;
@@ -33,8 +34,14 @@ public class Transportcontroller {
         }
     }
     @PostMapping("/create")
-    public void createTransport( @RequestBody Transportmodel Transpo) {
-        transportService.createTransport(Transpo);
+    public ResponseEntity<Map<String, String>> createAnswer(@RequestBody TransportResponse transportResponse) {
+        Map<String, String> response = transportService.setMethod(transportResponse);
+
+        if (response.containsKey("error")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(response);
     }
 
 //    @DeleteMapping("/delete/{id}")

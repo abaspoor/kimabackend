@@ -16,6 +16,7 @@ public interface UserService {
     Map<String, Serializable> authenticateUser(UserLoginDTO user);
     List<UserPropertyResponse> getAdmins();
     List<UserListDTO> getUsersforAdmin();
+    Map<String,String> setUserforAdmin(UserListDTO userListDTO);
     Map<String, String> deleteUser(Integer T_Id);
     Map<String, String> deleteUserCascade(Integer T_Id);
     Map<String, String> deleteUserAndKeepAnswers(Integer T_Id);

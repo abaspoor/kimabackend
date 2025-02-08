@@ -13,5 +13,5 @@ public class UserListDTO {
     public String firstname;
     public String lastname;
     public String email;
-    public Boolean admin;
+    public boolean admin;
 }

@@ -3,6 +3,7 @@ package org.dit.wim.ase.footprint.controller;
 import lombok.extern.log4j.Log4j2;
 import org.dit.wim.ase.footprint.DTO.UserListDTO;
 import org.dit.wim.ase.footprint.DTO.UserLoginDTO;
+import org.dit.wim.ase.footprint.model.TransportResponse;
 import org.dit.wim.ase.footprint.model.UserPropertyResponse;
 import org.dit.wim.ase.footprint.repo.UserRepository;
 import org.dit.wim.ase.footprint.service.AnswerserviceImpl;
@@ -108,9 +109,19 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/delete/keep-answers/{id}")
-    public ResponseEntity<Map<String, String>> deleteUserKeepAnswers(@PathVariable Integer id) {
-        Map<String, String> response = userService.deleteUserAndKeepAnswers(id);
+    @PostMapping("/setadmin")
+    public ResponseEntity<Map<String, String>> setAdmin(@RequestBody UserListDTO userListDTO) {
+        Map<String, String> response = userService.setUserforAdmin(userListDTO);
+        if (response.containsKey("error")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<Map<String, String>> createAnswer(@RequestBody TransportResponse transportResponse) {
+        Map<String, String> response = transportService.setMethod(transportResponse);
 
         if (response.containsKey("error")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
