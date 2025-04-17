@@ -1,5 +1,6 @@
 package org.dit.wim.ase.footprint.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.dit.wim.ase.footprint.DTO.UserListDTO;
 import org.dit.wim.ase.footprint.entity.Transportmodel;
 import org.dit.wim.ase.footprint.security.JwtUtil;
@@ -9,16 +10,16 @@ import org.dit.wim.ase.footprint.model.UserPropertyResponse;
 import org.dit.wim.ase.footprint.repo.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import lombok.extern.log4j.Log4j2;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@Log4j2
+@Slf4j
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
@@ -82,7 +83,13 @@ public class UserServiceImpl implements UserService{
                     String lastname = User.getLastname();
                     Integer id = User.getUser_id();
                     Boolean admin = User.getAdmin();
-                    return Map.of("token", token, "lastname", lastname,"id",id,"admin",admin);
+//                    return Map.of("token", token, "lastname", lastname,"id",id,"admin",admin);
+                    return new HashMap<>() {{
+                        put("token", token);
+                        put("lastname", lastname);
+                        put("id", id);
+                        put("admin", admin != null ? admin : false);
+                    }};
                 }
             }
             return null;

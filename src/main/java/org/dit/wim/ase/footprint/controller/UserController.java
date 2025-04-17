@@ -1,6 +1,7 @@
 package org.dit.wim.ase.footprint.controller;
 
-import lombok.extern.log4j.Log4j2;
+
+import lombok.extern.slf4j.Slf4j;
 import org.dit.wim.ase.footprint.DTO.UserListDTO;
 import org.dit.wim.ase.footprint.DTO.UserLoginDTO;
 import org.dit.wim.ase.footprint.model.TransportResponse;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
-@Log4j2
+@Slf4j
 @RestController
 @RequestMapping("/api/users")
 public class UserController {

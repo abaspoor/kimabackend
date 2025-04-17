@@ -1,6 +1,7 @@
 package org.dit.wim.ase.footprint.service;
 
-import lombok.extern.log4j.Log4j2;
+
+import lombok.extern.slf4j.Slf4j;
 import org.dit.wim.ase.footprint.DTO.AnswerSetDTO;
 import org.dit.wim.ase.footprint.entity.Answermodel;
 import org.dit.wim.ase.footprint.entity.Transportmodel;
@@ -14,7 +15,7 @@ import java.util.stream.Collectors;
 
 
 @Service
-@Log4j2
+@Slf4j
 public class TransportServiceImpl implements TransportService{
     private final TransportRepository transportRepository;
 

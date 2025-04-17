@@ -30,20 +30,27 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // disable csrf
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // config cors
+                .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/users/login", "/api/users/register").permitAll() // this is for make permition to all register and login api
-                        .requestMatchers("/api/users").permitAll()
-                        .requestMatchers("api/answers/**").authenticated()// authenticated api
-                        .anyRequest().authenticated() // any other request should be authenticated
+                        .requestMatchers(
+                                "/api/users/login",
+                                "/api/users/register"
+//                                "/api/users" // اگر نیاز باشه
+                        ).permitAll()
+                        .anyRequest().authenticated()
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // no session
-                .addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class) // jwt filter
-                .formLogin(form -> form.disable()) // disable default login
-                .httpBasic(httpBasic -> httpBasic.disable()); // desable basic authentication
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class)
+                .formLogin(form -> form.disable())
+                .httpBasic(httpBasic -> httpBasic.disable());
 
         return http.build();
+    }
+
+    @Bean
+    public JwtFilter jwtFilter() {
+        return new JwtFilter(jwtUtil);
     }
 
     @Bean
@@ -51,23 +58,21 @@ public class SecurityConfig {
         return authConfig.getAuthenticationManager();
     }
 
-    // config to code passwords
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // cors configuration
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // allowed origin
+        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // فرانتت اینه؟
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // set cors globally
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 }

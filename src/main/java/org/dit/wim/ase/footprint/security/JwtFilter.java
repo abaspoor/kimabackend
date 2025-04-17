@@ -25,10 +25,17 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
+        // مسیرهایی که باید بدون فیلتر رد بشن
+        String path = request.getRequestURI();
+        if (path.startsWith("/api/users/login") || path.startsWith("/api/users/register")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            String token = authHeader.substring(7); // get token from "Bearer" in headers request
+            String token = authHeader.substring(7);
             try {
                 String username = jwtUtil.extractUsername(token);
                 if (jwtUtil.validateToken(token)) {
