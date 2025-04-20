@@ -2,7 +2,7 @@ name: Build & Push Backend Docker Image
 
 on:
   push:
-    branches: ["main"] # یا هر برنچی که خواستی
+    branches: ["master"] # یا هر برنچی که خواستی
 
 jobs:
   build:
