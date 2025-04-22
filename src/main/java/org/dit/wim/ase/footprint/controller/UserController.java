@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
+@CrossOrigin(origins = "*") // movaghati
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
