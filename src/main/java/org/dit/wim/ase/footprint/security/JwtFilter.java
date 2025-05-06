@@ -27,7 +27,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         // مسیرهایی که باید بدون فیلتر رد بشن
         String path = request.getRequestURI();
-        if (path.startsWith("/api/users/login") || path.startsWith("/api/users/register")) {
+        if (path.startsWith("/api/users/login") || path.startsWith("/api/users/register") || path.startsWith("/api/ping")){
             filterChain.doFilter(request, response);
             return;
         }
