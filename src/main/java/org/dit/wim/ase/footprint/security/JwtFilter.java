@@ -25,9 +25,9 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
+        // مسیرهایی که باید بدون فیلتر رد بشن
         String path = request.getRequestURI();
-
-        if (isPublicPath(path) || "OPTIONS".equalsIgnoreCase(request.getMethod())) {
+        if (path.startsWith("/api/users/login") || path.startsWith("/api/users/register") || path.startsWith("/api/ping")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -48,18 +48,8 @@ public class JwtFilter extends OncePerRequestFilter {
                 response.getWriter().write("Invalid JWT token");
                 return;
             }
-        } else {
-            response.setStatus(HttpStatus.FORBIDDEN.value());
-            response.getWriter().write("Missing or invalid Authorization header");
-            return;
         }
 
         filterChain.doFilter(request, response);
-    }
-
-    private boolean isPublicPath(String path) {
-        return path.startsWith("/api/users/login")
-                || path.startsWith("/api/users/register")
-                || path.startsWith("/api/ping");
     }
 }
