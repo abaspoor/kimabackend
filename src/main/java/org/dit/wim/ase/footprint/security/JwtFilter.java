@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 public class JwtFilter extends OncePerRequestFilter {
 
@@ -26,10 +27,14 @@ public class JwtFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String path = request.getRequestURI();
-        if (path.startsWith("/api/users/login") ||
-                path.startsWith("/api/users/register") ||
-                path.startsWith("/api/ping") ||
-                "OPTIONS".equalsIgnoreCase(request.getMethod())) {
+
+        List<String> publicPaths = List.of(
+                "/api/users/login",
+                "/api/users/register",
+                "/api/ping"
+        );
+
+        if (publicPaths.contains(path) || "OPTIONS".equalsIgnoreCase(request.getMethod())) {
             filterChain.doFilter(request, response);
             return;
         }
