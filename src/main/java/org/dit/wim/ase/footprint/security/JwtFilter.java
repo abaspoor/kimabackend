@@ -12,7 +12,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.List;
 
 public class JwtFilter extends OncePerRequestFilter {
 
@@ -28,13 +27,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String path = request.getRequestURI();
 
-        List<String> publicPaths = List.of(
-                "/api/users/login",
-                "/api/users/register",
-                "/api/ping"
-        );
-
-        if (publicPaths.contains(path) || "OPTIONS".equalsIgnoreCase(request.getMethod())) {
+        if (isPublicPath(path) || "OPTIONS".equalsIgnoreCase(request.getMethod())) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -62,5 +55,11 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    private boolean isPublicPath(String path) {
+        return path.startsWith("/api/users/login")
+                || path.startsWith("/api/users/register")
+                || path.startsWith("/api/ping");
     }
 }
